@@ -1,0 +1,65 @@
+class Queue:
+    def init(self, capacity=10):
+        # تعیین ظرفیت اولیه صف
+        self.capacity = capacity
+        self.items = [None] * capacity
+        self.head = 0      # اشاره‌گر ابتدای صف
+        self.tail = -1     # اشاره‌گر انتهای صف
+
+    def enqueue(self, value):
+        """افزودن عنصر جدید به انتهای صف"""
+        if self.tail == self.capacity - 1:
+            print("Queue Overflow")
+            return
+        self.tail += 1
+        self.items[self.tail] = value
+
+    def dequeue(self):
+        """حذف عنصر از ابتدای صف"""
+        if self.head > self.tail:
+            print("Queue Underflow")
+            return
+        self.head += 1
+
+    def compact(self):
+        """
+        بازچینی عناصر صف برای جلوگیری از هدر رفتن فضا
+        (انتقال عناصر به ابتدای آرایه)
+        """
+        index = 0
+        for i in range(self.head, self.tail + 1):
+            self.items[index] = self.items[i]
+            index += 1
+
+        self.tail = self.tail - self.head
+        self.head = 0
+
+    def show(self):
+        """نمایش عناصر موجود در صف"""
+        if self.head > self.tail:
+            print("Queue is empty")
+            return
+
+        for i in range(self.head, self.tail + 1):
+            print(self.items[i], end=" ")
+        print()
+
+
+# ------------------ تست کلاس ------------------
+
+queue = Queue(5)
+
+queue.enqueue(10)
+queue.enqueue(20)
+queue.enqueue(30)
+
+queue.dequeue()
+queue.dequeue()
+
+queue.enqueue(40)
+queue.enqueue(50)   # ممکن است اینجا خطای سرریز رخ دهد
+
+queue.compact()     # بازچینی برای رفع مشکل فضای خالی
+
+queue.enqueue(60)
+queue.show()
