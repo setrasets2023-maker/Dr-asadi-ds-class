@@ -1,197 +1,253 @@
 class MegaStack:
 
     # ===== متدهای پایه (1–10) =====
-    def __init__(self):                       # 1
+    def init(self):                       # 1
+        # ساختار داخلی پشته
         self.stack = []
 
     def is_empty(self):                       # 2
+        # بررسی خالی بودن پشته
         return len(self.stack) == 0
 
     def size(self):                           # 3
+        # تعداد عناصر موجود در پشته
         return len(self.stack)
 
     def push(self, x):                        # 4
+        # افزودن عنصر به بالای پشته
         self.stack.append(x)
 
     def pop(self):                            # 5
+        # حذف و بازگرداندن عنصر بالای پشته
         if self.is_empty():
             return None
         return self.stack.pop()
 
     def peek(self):                           # 6
+        # مشاهده عنصر بالای پشته بدون حذف
         return None if self.is_empty() else self.stack[-1]
 
     def clear(self):                          # 7
+        # پاکسازی کل عناصر پشته
         self.stack.clear()
 
     def copy(self):                           # 8
+        # نسخه‌ای مستقل از پشته
         return self.stack.copy()
 
     def to_list(self):                        # 9
+        # تبدیل پشته به لیست
         return list(self.stack)
 
     def contains(self, x):                    # 10
+        # بررسی وجود مقدار مشخص
         return x in self.stack
 
     # ===== آماری (11–20) =====
     def get_min(self):                        # 11
+        # کوچک‌ترین عنصر پشته
         return min(self.stack) if not self.is_empty() else None
 
     def get_max(self):                        # 12
+        # بزرگ‌ترین عنصر پشته
         return max(self.stack) if not self.is_empty() else None
 
     def get_sum(self):                        # 13
+        # جمع عناصر پشته
         return sum(self.stack)
 
     def average(self):                        # 14
+        # میانگین عناصر پشته
         return self.get_sum() / self.size() if not self.is_empty() else None
 
     def count_even(self):                     # 15
+        # تعداد عناصر زوج
         return sum(1 for x in self.stack if x % 2 == 0)
 
     def count_odd(self):                      # 16
+        # تعداد عناصر فرد
         return sum(1 for x in self.stack if x % 2 != 0)
 
     def frequency(self, x):                   # 17
+        # تعداد رخدادهای مقدار مشخص
         return self.stack.count(x)
 
     def max_frequency(self):                  # 18
+        # عنصری با بیشترین تکرار
         return max(set(self.stack), key=self.stack.count) if self.stack else None
 
     def min_frequency(self):                  # 19
+        # عنصری با کمترین تکرار
         return min(set(self.stack), key=self.stack.count) if self.stack else None
 
     def unique_count(self):                   # 20
+        # تعداد عناصر یکتا
         return len(set(self.stack))
 
     # ===== مرتب‌سازی و اولویت (21–30) =====
     def sort_ascending(self):                 # 21
+        # مرتب‌سازی صعودی
         self.stack.sort()
 
     def sort_descending(self):                # 22
+        # مرتب‌سازی نزولی
         self.stack.sort(reverse=True)
 
     def prioritize(self):                     # 23
+        # اولویت‌بندی (بزرگ‌ترین‌ها در بالا)
         self.sort_descending()
 
     def remove_duplicates(self):              # 24
+        # حذف مقادیر تکراری و حفظ ترتیب
         self.stack = list(dict.fromkeys(self.stack))
 
-    def push_if_unique(self, x):               # 25
+    def push_if_unique(self, x):              # 25
+        # افزودن تنها در صورت عدم وجود
         if x not in self.stack:
             self.push(x)
 
-    def replace(self, old, new):               # 26
-        self.stack = [new if x == old else x for x in self.stack]
+    def replace(self, old, new):              # 26
+        # جایگزینی مقادیر مشخص
+        self.stack = [new if v == old else v for v in self.stack]
 
-    def remove_value(self, x):                 # 27
+    def remove_value(self, x):                # 27
+        # حذف تمام رخدادهای مقدار مشخص
         self.stack = [v for v in self.stack if v != x]
 
     def get_middle(self):                      # 28
+        # دریافت عنصر میانی پشته
         return self.stack[self.size() // 2] if not self.is_empty() else None
 
     def is_sorted(self):                       # 29
+        # بررسی مرتب بودن پشته به صورت صعودی
         return self.stack == sorted(self.stack)
-
-    def reverse(self):                         # 30
+        def reverse(self):                         # 30
+        # معکوس کردن ترتیب عناصر
         self.stack.reverse()
 
     # ===== چندعملیاتی (31–40) =====
     def push_multiple(self, items):            # 31
+        # افزودن چند عنصر
         for x in items:
             self.push(x)
 
     def pop_multiple(self, k):                 # 32
+        # حذف چند عنصر بالای پشته و بازگرداندن آن‌ها
         result = []
         for _ in range(min(k, self.size())):
             result.append(self.pop())
         return result
 
     def swap_top(self):                        # 33
+        # جابجایی دو عنصر بالای پشته
         if self.size() >= 2:
             self.stack[-1], self.stack[-2] = self.stack[-2], self.stack[-1]
 
     def rotate_left(self):                     # 34
+        # چرخش عناصر به چپ
         if self.size() > 1:
             self.stack.append(self.stack.pop(0))
 
     def rotate_right(self):                    # 35
+        # چرخش عناصر به راست
         if self.size() > 1:
             self.stack.insert(0, self.stack.pop())
 
     def duplicate_top(self):                   # 36
+        # کپی کردن عنصر بالای پشته
         if not self.is_empty():
             self.push(self.peek())
 
     def remove_top(self):                      # 37
+        # حذف عنصر بالای پشته
         if not self.is_empty():
             self.pop()
 
     def bottom(self):                          # 38
+        # مشاهده عنصر انتهای پشته
         return self.stack[0] if not self.is_empty() else None
 
     def remove_bottom(self):                   # 39
+        # حذف عنصر انتهای پشته
         if not self.is_empty():
             self.stack.pop(0)
 
     def insert_bottom(self, x):                # 40
+        # افزودن عنصر به ابتدای پشته
         self.stack.insert(0, x)
 
     # ===== منطقی و الگوریتمی (41–55) =====
     def is_palindrome(self):                   # 41
+        # بررسی متقارن بودن پشته
         return self.stack == self.stack[::-1]
 
     def all_positive(self):                    # 42
+        # آیا همه عناصر مثبت هستند؟
         return all(x > 0 for x in self.stack)
 
     def any_negative(self):                    # 43
+        # آیا حداقل یک عنصر منفی وجود دارد؟
         return any(x < 0 for x in self.stack)
 
     def find_index(self, x):                   # 44
+        # یافتن اندیس یک عنصر
         return self.stack.index(x) if x in self.stack else -1
 
     def count_greater_than(self, k):           # 45
+        # شمارش عناصر بزرگ‌تر از مقدار مشخص
         return sum(1 for x in self.stack if x > k)
 
     def count_less_than(self, k):              # 46
+        # شمارش عناصر کوچکتر از مقدار مشخص
         return sum(1 for x in self.stack if x < k)
 
     def map_square(self):                      # 47
+        # جایگزینی هر عنصر با مربع آن
         self.stack = [x * x for x in self.stack]
 
     def filter_even(self):                     # 48
+        # نگهداری تنها عناصر زوج
         self.stack = [x for x in self.stack if x % 2 == 0]
 
     def filter_odd(self):                      # 49
+        # نگهداری تنها عناصر فرد
         self.stack = [x for x in self.stack if x % 2 != 0]
 
     def sum_top_k(self, k):                    # 50
+        # جمع k عنصر بالای پشته
         return sum(self.stack[-k:])
 
     def compare_size(self, other):             # 51
+        # مقایسه اندازه با پشته دیگر
         return self.size() - other.size()
 
     def merge(self, other):                    # 52
+        # ادغام پشته دیگر
         self.push_multiple(other.to_list())
 
     def equals(self, other):                   # 53
+        # بررسی برابری با پشته دیگر
         return self.stack == other.to_list()
 
-    def clear_if_full(self, limit):             # 54
+    def clear_if_full(self, limit):            # 54
+        # پاکسازی در صورت رسیدن به ظرفیت مشخص
         if self.size() >= limit:
             self.clear()
 
     def trim(self, k):                         # 55
+        # حفظ تنها k عنصر اول
         self.stack = self.stack[:k]
 
     # ===== نمایشی و اطلاعاتی (56–65) =====
     def to_string(self):                       # 56
+        # تبدیل پشته به رشته
         return " ".join(map(str, self.stack))
-
-    def print_stack(self):                     # 57
+        def print_stack(self):                     # 57
+        # نمایش عناصر پشته
         print(self.stack)
 
     def info(self):                            # 58
+        # اطلاعات پایه پشته
         return {
             "size": self.size(),
             "is_empty": self.is_empty(),
@@ -199,25 +255,33 @@ class MegaStack:
         }
 
     def memory_usage(self):                    # 59
-        return self.size() * 8   # تخمینی
+        # برآورد مصرف حافظه (تخمینی)
+        return self.size() * 8
 
     def reset(self):                           # 60
+        # پاکسازی پشته
         self.clear()
 
     def clone(self):                           # 61
+        # ایجاد نسخه مستقل از پشته
         new = MegaStack()
         new.push_multiple(self.stack)
         return new
 
     def push_range(self, a, b):                # 62
+        # افزودن اعداد متوالی از a تا b
         for i in range(a, b + 1):
             self.push(i)
 
     def remove_range(self, a, b):              # 63
+        # حذف عناصر در بازه مشخص
         self.stack = [x for x in self.stack if not (a <= x <= b)]
 
     def count_range(self, a, b):               # 64
+        # شمارش عناصر در بازه مشخص
         return sum(1 for x in self.stack if a <= x <= b)
 
     def checksum(self):                        # 65
+        # مقدار هش از عناصر پشته
         return hash(tuple(self.stack))
+        
