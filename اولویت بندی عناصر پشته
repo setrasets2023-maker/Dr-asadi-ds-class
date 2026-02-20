@@ -1,0 +1,47 @@
+class Stack:
+    def init(self):
+        # ایجاد ساختار داخلی پشته
+        self.stack = []
+
+    def is_empty(self):
+        # بررسی خالی بودن پشته
+        return len(self.stack) == 0
+
+    def push(self, x):
+        # افزودن عنصر به بالای پشته
+        self.stack.append(x)
+
+    def pop(self):
+        # حذف و بازگرداندن عنصر بالای پشته
+        if self.is_empty():
+            return None
+        return self.stack.pop()
+
+    def prioritize(self):
+        """
+        اولویت‌بندی عناصر پشته به گونه‌ای که
+        مقادیر بزرگ‌تر در بالای پشته قرار گیرند
+        """
+        temp = []
+
+        # تخلیه کامل پشته و انتقال به آرایه موقت
+        while not self.is_empty():
+            temp.append(self.pop())
+
+        # مرتب‌سازی نزولی (اولویت بالاتر = عدد بزرگ‌تر)
+        temp.sort(reverse=True)
+
+        # بازگرداندن عناصر مرتب شده به پشته
+        for x in temp:
+            self.push(x)
+
+
+# ---------- نمونه اجرا ----------
+s = Stack()
+s.push(3)
+s.push(1)
+s.push(5)
+s.push(2)
+
+s.prioritize()
+print(s.stack)  # خروجی: [1, 2, 3, 5]  ← 5 بالای پشته
