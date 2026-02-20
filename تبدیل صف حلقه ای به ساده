@@ -1,27 +1,36 @@
 class CircularQueue:
-    def __init__(self, size=10):
+    def init(self, size=10):
+        # ایجاد صف حلقه‌ای با ظرفیت مشخص
         self.size = size
         self.queue = [None] * size
         self.front = -1
         self.rear = -1
 
     def is_empty(self):
+        # بررسی اینکه صف خالی است یا خیر
         return self.front == -1
 
     def is_full(self):
+        # بررسی پر بودن صف به صورت حلقه‌ای
         return (self.rear + 1) % self.size == self.front
 
     def enqueue(self, x):
+        # افزودن عنصر جدید به صف در صورت وجود ظرفیت
         if self.is_full():
             return
         if self.is_empty():
+            # اولین عنصر افزوده شده، اشاره‌گرها مقداردهی می‌شوند
             self.front = self.rear = 0
         else:
+            # حرکت rear به صورت چرخشی
             self.rear = (self.rear + 1) % self.size
         self.queue[self.rear] = x
 
-    # ✅ متد تبدیل صف حلقوی به صف ساده
     def to_simple_queue(self):
+        """
+        تبدیل صف حلقه‌ای به یک صف ساده خطی
+        (انتقال همه عناصر به آرایه‌ای متوالی)
+        """
         if self.is_empty():
             return
 
@@ -29,6 +38,7 @@ class CircularQueue:
         i = self.front
         idx = 0
 
+        # انتقال عناصر از front تا rear به آرایه جدید
         while True:
             new_queue[idx] = self.queue[i]
             if i == self.rear:
@@ -36,6 +46,7 @@ class CircularQueue:
             i = (i + 1) % self.size
             idx += 1
 
+        # جایگزینی آرایه جدید و به‌روزرسانی اشاره‌گرها
         self.queue = new_queue
         self.front = 0
         self.rear = idx
