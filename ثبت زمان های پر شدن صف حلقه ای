@@ -1,0 +1,61 @@
+from datetime import datetime
+
+
+class CircularQueue:
+    def init(self, size=5):
+        # تعیین ظرفیت صف و مقداردهی اولیه آرایه داخلی
+        self.size = size
+        self.queue = [None] * size
+        self.front = -1
+        self.rear = -1
+
+        # لیستی برای نگهداری پنج زمان آخر که صف به حالت پر رسیده است
+        self.full_times = []
+
+    def is_full(self):
+        # بررسی وضعیت پر بودن صف به صورت چرخشی
+        return (self.rear + 1) % self.size == self.front
+
+    def is_empty(self):
+        # بررسی اینکه صف هیچ عنصری ندارد
+        return self.front == -1
+
+    def enqueue(self, x):
+        # تلاش برای افزودن عنصر جدید به صف
+        if self.is_full():
+            # در صورت پر بودن، زمان ثبت می‌شود
+            self._save_full_time()
+            return
+
+        if self.is_empty():
+            # در اولین درج، هر دو اشاره‌گر مقداردهی می‌شوند
+            self.front = self.rear = 0
+        else:
+            # حرکت rear به شکل چرخشی
+            self.rear = (self.rear + 1) % self.size
+
+        self.queue[self.rear] = x
+
+    def _save_full_time(self):
+        """
+        ثبت زمان فعلی هنگام پر شدن صف
+        و نگهداری فقط پنج زمان اخیر
+        """
+        time_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.full_times.append(time_now)
+
+        # اگر تعداد زمان‌ها بیش از ۵ شود، قدیمی‌ترین حذف می‌شود
+        if len(self.full_times) > 5:
+            self.full_times.pop(0)
+
+    def report_full_times(self):
+        """
+        نمایش زمان‌هایی که صف به طور کامل پر شده است
+        (حداکثر پنج مورد اخیر)
+        """
+        if not self.full_times:
+            print("Queue has never been full")
+            return
+
+        for t in self.full_times:
+            print(t)
