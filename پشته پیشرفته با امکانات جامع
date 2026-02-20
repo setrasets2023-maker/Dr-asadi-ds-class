@@ -1,3 +1,150 @@
+class AdvancedStack:
+    # ---------- 1 ----------
+    def init(self):
+        # ایجاد ساختار داخلی پشته
+        self.stack = []
+
+    # ---------- 2 ----------
+    def is_empty(self):
+        # بررسی خالی بودن پشته
+        return len(self.stack) == 0
+
+    # ---------- 3 ----------
+    def size(self):
+        # برگرداندن تعداد عناصر پشته
+        return len(self.stack)
+
+    # ---------- 4 ----------
+    def push(self, x):
+        # افزودن عنصر به بالای پشته
+        self.stack.append(x)
+
+    # ---------- 5 ----------
+    def pop(self):
+        # حذف و بازگرداندن عنصر بالای پشته
+        if self.is_empty():
+            return None
+        return self.stack.pop()
+
+    # ---------- 6 ----------
+    def peek(self):
+        # مشاهده عنصر بالای پشته بدون حذف
+        if self.is_empty():
+            return None
+        return self.stack[-1]
+
+    # ---------- 7 ----------
+    def clear(self):
+        # پاکسازی کل عناصر پشته
+        self.stack.clear()
+
+    # ---------- 8 ----------
+    def contains(self, x):
+        # بررسی وجود مقدار مشخص در پشته
+        return x in self.stack
+
+    # ---------- 9 ----------
+    def reverse(self):
+        # معکوس کردن ترتیب عناصر پشته
+        self.stack.reverse()
+
+    # ---------- 10 ----------
+    def copy(self):
+        # ایجاد نسخه‌ای مستقل از پشته
+        return self.stack.copy()
+
+    # ---------- 11 ----------
+    def get_min(self):
+        # کوچک‌ترین مقدار موجود در پشته
+        return min(self.stack) if not self.is_empty() else None
+
+    # ---------- 12 ----------
+    def get_max(self):
+        # بزرگ‌ترین مقدار موجود در پشته
+        return max(self.stack) if not self.is_empty() else None
+
+    # ---------- 13 ----------
+    def sum(self):
+        # جمع کل عناصر پشته
+        return sum(self.stack)
+
+    # ---------- 14 ----------
+    def average(self):
+        # محاسبه میانگین عناصر پشته
+        if self.is_empty():
+            return None
+        return sum(self.stack) / self.size()
+
+    # ---------- 15 ----------
+    def count_even(self):
+        # شمارش عناصر زوج
+        return sum(1 for x in self.stack if x % 2 == 0)
+
+    # ---------- 16 ----------
+    def count_odd(self):
+        # شمارش عناصر فرد
+        return sum(1 for x in self.stack if x % 2 != 0)
+
+    # ---------- 17 ----------
+    def remove_duplicates(self):
+        # حذف مقادیر تکراری و نگهداری ترتیب
+        self.stack = list(dict.fromkeys(self.stack))
+
+    # ---------- 18 ----------
+    def sort_ascending(self):
+        # مرتب‌سازی عناصر به صورت صعودی
+        self.stack.sort()
+
+    # ---------- 19 ----------
+    def sort_descending(self):
+        # مرتب‌سازی عناصر به صورت نزولی
+        self.stack.sort(reverse=True)
+
+    # ---------- 20 ----------
+    def prioritize(self):
+        # اولویت‌بندی پشته (بزرگ‌ترین‌ها در بالا)
+        self.sort_descending()
+
+    # ---------- 21 ----------
+    def push_multiple(self, items):
+        # افزودن چند عنصر به پشته
+        for x in items:
+            self.push(x)
+
+    # ---------- 22 ----------
+    def pop_multiple(self, k):
+        # حذف چند عنصر بالای پشته و بازگرداندن آن‌ها
+        result = []
+        for _ in range(min(k, self.size())):
+            result.append(self.pop())
+        return result
+
+    # ---------- 23 ----------
+    def is_palindrome(self):
+        # بررسی اینکه پشته متقارن باشد
+        return self.stack == self.stack[::-1]
+
+    # ---------- 24 ----------
+    def get_middle(self):
+        # دریافت عنصر میانی پشته
+        if self.is_empty():
+            return None
+        return self.stack[self.size() // 2]
+
+    # ---------- 25 ----------
+    def replace(self, old, new):
+        # جایگزینی مقدار مشخص با مقدار دیگر
+        self.stack = [new if x == old else x for x in self.stack]
+
+    # ---------- 26 ----------
+    def remove_value(self, x):
+        # حذف تمام رخدادهای مقدار مشخص
+        self.stack = [v for v in self.stack if v != x]
+
+    # ---------- 27 ----------
+    def frequency(self, x):
+        # تعداد رخدادهای مقدار مشخص
+        return self.stack.count(x)
 # ---------- 28 ----------
     def max_frequency(self):
         # عنصری با بیشترین تکرار در پشته
