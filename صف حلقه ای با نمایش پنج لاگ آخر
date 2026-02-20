@@ -1,30 +1,37 @@
 class CircularQueue:
-    def __init__(self, size=10):
+    def init(self, size=10):
+        # تعیین ظرفیت صف حلقه‌ای و ایجاد آرایه ثابت
         self.size = size
         self.queue = [None] * size
-        self.front = -1
-        self.rear = -1
+        self.front = -1   # نشانگر ابتدای صف
+        self.rear = -1    # نشانگر انتهای صف
 
     def is_empty(self):
+        # بررسی خالی بودن صف
         return self.front == -1
 
     def is_full(self):
+        # اگر خانه بعدی rear برابر front باشد صف پر است
         return (self.rear + 1) % self.size == self.front
 
     def enqueue(self, x):
+        # افزودن عنصر جدید به صف حلقه‌ای
         if self.is_full():
             print("Queue is Full")
             return
 
         if self.is_empty():
+            # در اولین درج، هر دو اشاره‌گر مقداردهی می‌شوند
             self.front = 0
             self.rear = 0
         else:
+            # حرکت rear به صورت چرخشی
             self.rear = (self.rear + 1) % self.size
 
         self.queue[self.rear] = x
 
     def dequeue(self):
+        # حذف و بازگرداندن عنصر ابتدای صف
         if self.is_empty():
             print("Queue is Empty")
             return None
@@ -32,15 +39,20 @@ class CircularQueue:
         x = self.queue[self.front]
 
         if self.front == self.rear:
+            # اگر فقط یک عنصر وجود داشت، صف ریست می‌شود
             self.front = -1
             self.rear = -1
         else:
+            # حرکت front به صورت چرخشی
             self.front = (self.front + 1) % self.size
 
         return x
 
-    # ✅ متد گزارش ۵ لاگ آخر
     def last_five_logs(self):
+        """
+        نمایش حداکثر پنج ورودی آخر ثبت‌شده در صف
+        (از جدیدترین به قدیمی‌ترین و سپس مرتب‌سازی برای نمایش صحیح)
+        """
         if self.is_empty():
             print("No logs available")
             return
@@ -51,21 +63,22 @@ class CircularQueue:
         result = []
         index = self.rear
 
+        # پیمایش معکوس از انتهای صف
         for _ in range(logs_to_show):
             result.append(self.queue[index])
             index = (index - 1 + self.size) % self.size
 
-        result.reverse()  # ترتیب صحیح
+        result.reverse()  # اصلاح ترتیب برای نمایش
         print("Last logs:", result)
 
     def count_elements(self):
+        # محاسبه تعداد عناصر موجود در صف
         if self.rear >= self.front:
             return self.rear - self.front + 1
         return self.size - self.front + self.rear + 1
 
 
-
-
+# ---------- نمونه اجرا ----------
 
 cq = CircularQueue(7)
 
