@@ -1,60 +1,70 @@
 class CircularQueue:
-    def __init__(self, size=5):
+    def init(self, size=5):
+        # تعیین ظرفیت صف حلقه‌ای و ایجاد آرایه ثابت
         self.size = size
         self.queue = [None] * size
         self.front = -1
         self.rear = -1
 
     def is_empty(self):
+        # بررسی اینکه صف فاقد عنصر است
         return self.front == -1
 
     def is_full(self):
+        # اگر خانه بعدی rear برابر front باشد، صف پر است
         return (self.rear + 1) % self.size == self.front
 
     def enqueue(self, x):
+        # افزودن عنصر جدید در صورت وجود ظرفیت
         if self.is_full():
             return
+
         if self.is_empty():
+            # اولین مقداردهی اشاره‌گرها
             self.front = self.rear = 0
         else:
+            # حرکت rear به صورت چرخشی
             self.rear = (self.rear + 1) % self.size
+
         self.queue[self.rear] = x
 
     def get_valid_elements(self):
+        """
+        استخراج عناصر موجود در صف
+        از front تا rear با در نظر گرفتن حالت چرخشی
+        """
         if self.is_empty():
             return []
 
         result = []
         i = self.front
+
+        # پیمایش صف تا رسیدن به rear
         while True:
             result.append(self.queue[i])
             if i == self.rear:
                 break
             i = (i + 1) % self.size
+
         return result
-
-
-
-
-
 
 
 def create_and_transfer():
     queues = []
     stacks = []
 
-    # ایجاد ۱۰۰۰ صف حلقوی
+    # ساخت 1000 صف حلقه‌ای و افزودن داده نمونه به هرکدام
     for i in range(1000):
         q = CircularQueue()
-        for j in range(3):       # داده نمونه
+        for j in range(3):  # داده‌های آزمایشی
             q.enqueue(i * 10 + j)
         queues.append(q)
 
-    # ایجاد ۱۰۰۰ پشته
+    # ایجاد 1000 پشته جداگانه
     for _ in range(1000):
         stacks.append(Stack())
 
-    # انتقال داده‌های معتبر صف‌ها به‌صورت معکوس به پشته‌ها
+    # انتقال عناصر هر صف به پشته متناظر به صورت معکوس
     for i in range(1000):
         data = queues[i].get_valid_elements()
         for x in reversed(data):
