@@ -1,0 +1,61 @@
+class Stack:
+    def init(self):
+        # لیست داخلی برای نگهداری عناصر پشته
+        self._data = []
+
+    def push(self, value):
+        """افزودن عنصر به بالای پشته"""
+        self._data.append(value)
+
+    def pop(self):
+        """حذف و برگرداندن عنصر بالای پشته"""
+        if self.is_empty():
+            print("Stack Underflow")
+            return None
+        return self._data.pop()
+
+    def is_empty(self):
+        """بررسی خالی بودن پشته"""
+        return len(self._data) == 0
+
+    def show(self):
+        """نمایش کل عناصر پشته"""
+        print(self._data)
+
+    def rearrange_even_odd(self):
+        """
+        مرتب‌سازی عناصر پشته به شکلی که
+        ابتدا اعداد زوج و سپس اعداد فرد قرار گیرند.
+        """
+        even_numbers = []
+        odd_numbers = []
+
+        # تخلیه کامل پشته و جداسازی اعداد
+        while not self.is_empty():
+            item = self.pop()
+            if item % 2 == 0:
+                even_numbers.append(item)
+            else:
+                odd_numbers.append(item)
+
+        # بازگردانی عناصر به پشته
+        # ابتدا فردها سپس زوج‌ها (برای حفظ ترتیب منطقی)
+        for item in reversed(odd_numbers):
+            self.push(item)
+
+        for item in reversed(even_numbers):
+            self.push(item)
+
+
+# ------------------ تست کلاس ------------------
+
+stack = Stack()
+
+stack.push(1)
+stack.push(2)
+stack.push(3)
+stack.push(4)
+stack.push(5)
+
+stack.rearrange_even_odd()
+stack.show()
