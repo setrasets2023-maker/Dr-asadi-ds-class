@@ -1,38 +1,42 @@
 # ======================================
-# Node (گره سه‌بعدی)
+# گره سه‌بعدی
 # ======================================
 class Node:
-    def __init__(self, data):
+    def init(self, data):
+        # داده اصلی گره
         self.data = data
+        # اشاره‌گر به گره بعدی
         self.next = None
+        # اشاره‌گر به گره قبلی
         self.prev = None
+        # اشاره‌گر به گره زیرمجموعه (سه‌بعدی)
         self.down = None
 
 
 # ======================================
-# Three Dimensional Linked List
+# لیست پیوندی سه‌بعدی
 # ======================================
 class ThreeDimensionalLinkedList:
-    def __init__(self):
+    def init(self):
+        # سر لیست
         self.head = None
 
-
-    # 1
+    # ---------- بررسی وضعیت ----------
     def is_empty(self):
+        # آیا لیست خالی است؟
         return self.head is None
 
-
-    # 2
+    # ---------- افزودن گره ----------
     def add_first(self, data):
+        # افزودن گره در ابتدا
         new_node = Node(data)
         if not self.is_empty():
             self.head.prev = new_node
             new_node.next = self.head
         self.head = new_node
 
-
-    # 3
     def add_last(self, data):
+        # افزودن گره در انتها
         new_node = Node(data)
         if self.is_empty():
             self.head = new_node
@@ -43,9 +47,9 @@ class ThreeDimensionalLinkedList:
         temp.next = new_node
         new_node.prev = temp
 
-
-    # 4
+    # ---------- حذف گره ----------
     def remove_first(self):
+        # حذف گره اول
         if self.is_empty():
             return None
         value = self.head.data
@@ -54,9 +58,8 @@ class ThreeDimensionalLinkedList:
             self.head.prev = None
         return value
 
-
-    # 5
     def remove_last(self):
+        # حذف گره آخر
         if self.is_empty():
             return None
         temp = self.head
@@ -68,9 +71,9 @@ class ThreeDimensionalLinkedList:
             self.head = None
         return temp.data
 
-
-    # 6
+    # ---------- جستجو و شمارش ----------
     def search(self, data):
+        # جستجوی یک داده در لیست
         temp = self.head
         while temp:
             if temp.data == data:
@@ -78,9 +81,8 @@ class ThreeDimensionalLinkedList:
             temp = temp.next
         return False
 
-
-    # 7
     def count(self):
+        # شمارش کل گره‌ها
         cnt = 0
         temp = self.head
         while temp:
@@ -88,18 +90,18 @@ class ThreeDimensionalLinkedList:
             temp = temp.next
         return cnt
 
-
-    # 8
+    # ---------- نمایش ----------
     def display(self):
+        # نمایش لیست اصلی
         temp = self.head
         while temp:
             print(temp.data, end=" <-> ")
             temp = temp.next
         print("None")
 
-
-    # 9
+    # ---------- مدیریت گره‌های زیرمجموعه ----------
     def add_down(self, parent_data, child_data):
+        # افزودن گره به شاخه پایین یک گره مشخص
         temp = self.head
         while temp:
             if temp.data == parent_data:
@@ -107,9 +109,8 @@ class ThreeDimensionalLinkedList:
                 return
             temp = temp.next
 
-
-    # 10
     def display_down(self, data):
+        # نمایش گره پایین گره مشخص
         temp = self.head
         while temp:
             if temp.data == data and temp.down:
@@ -117,9 +118,8 @@ class ThreeDimensionalLinkedList:
                 return
             temp = temp.next
 
-
-    # 11
     def remove_down(self, data):
+        # حذف گره پایین گره مشخص
         temp = self.head
         while temp:
             if temp.data == data:
@@ -127,9 +127,8 @@ class ThreeDimensionalLinkedList:
                 return
             temp = temp.next
 
-
-    # 12
     def has_down(self, data):
+        # بررسی وجود گره پایین برای گره مشخص
         temp = self.head
         while temp:
             if temp.data == data:
@@ -137,24 +136,22 @@ class ThreeDimensionalLinkedList:
             temp = temp.next
         return False
 
-
-    # 13
+    # ---------- دسترسی به اولین و آخرین ----------
     def get_first(self):
+        # دریافت داده اولین گره
         if self.is_empty():
             return None
         return self.head.data
 
-
-    # 14
     def get_last(self):
+        # دریافت داده آخرین گره
         if self.is_empty():
             return None
         temp = self.head
         while temp.next:
             temp = temp.next
         return temp.data
-
-
-    # 15
+        # ---------- پاکسازی ----------
     def clear(self):
+        # حذف همه گره‌ها
         self.head = None
