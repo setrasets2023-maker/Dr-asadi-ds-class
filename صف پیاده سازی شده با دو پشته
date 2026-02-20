@@ -1,53 +1,58 @@
 # ===============================
-# Stack (پشته)
+# پشته ساده
 # ===============================
 class Stack:
-    def __init__(self):
+    def init(self):
+        # لیست برای نگهداری عناصر پشته
         self.items = []
 
     def is_empty(self):
+        # بررسی خالی بودن پشته
         return len(self.items) == 0
 
     def push(self, x):
+        # افزودن عنصر به بالای پشته
         self.items.append(x)
 
     def pop(self):
+        # حذف و بازگرداندن عنصر بالای پشته
         if self.is_empty():
             return None
         return self.items.pop()
 
     def peek(self):
+        # مشاهده عنصر بالای پشته بدون حذف
         return None if self.is_empty() else self.items[-1]
 
 
 # ===============================
-# Queue using Stack (صف با پشته)
+# صف با استفاده از دو پشته
 # ===============================
 class QueueWithStack:
-    def __init__(self):
-        self.stack1 = Stack()  # برای enqueue
-        self.stack2 = Stack()  # برای dequeue
+    def init(self):
+        # stack1 برای افزودن، stack2 برای حذف
+        self.stack1 = Stack()  
+        self.stack2 = Stack()  
 
-    # اضافه کردن عنصر (enqueue)
     def enqueue(self, x):
+        # افزودن عنصر به صف
         self.stack1.push(x)
 
-    # حذف عنصر (dequeue)
     def dequeue(self):
+        # حذف عنصر از صف
         if self.stack2.is_empty():
+            # انتقال عناصر از stack1 به stack2 برای حفظ ترتیب
             while not self.stack1.is_empty():
                 self.stack2.push(self.stack1.pop())
-
         return self.stack2.pop()
 
-    # مشاهده عنصر جلویی صف
     def front(self):
+        # مشاهده عنصر جلویی صف بدون حذف
         if self.stack2.is_empty():
             while not self.stack1.is_empty():
                 self.stack2.push(self.stack1.pop())
-
         return self.stack2.peek()
 
-    # بررسی خالی بودن صف
     def is_empty(self):
+        # بررسی خالی بودن کل صف
         return self.stack1.is_empty() and self.stack2.is_empty()
