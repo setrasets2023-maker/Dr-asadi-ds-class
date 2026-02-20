@@ -1,20 +1,24 @@
 # ===============================
-# Circular Queue (صف حلقوی)
+# صف حلقوی ساده
 # ===============================
 class CircularQueue:
-    def __init__(self, size=5):
+    def init(self, size=5):
+        # ایجاد آرایه با ظرفیت مشخص برای صف
         self.size = size
         self.queue = [None] * size
         self.front = -1
         self.rear = -1
 
     def is_empty(self):
+        # بررسی خالی بودن صف
         return self.front == -1
 
     def is_full(self):
+        # بررسی پر بودن صف به صورت حلقوی
         return (self.rear + 1) % self.size == self.front
 
     def enqueue(self, x):
+        # افزودن عنصر جدید به صف
         if self.is_full():
             return
         if self.is_empty():
@@ -24,6 +28,7 @@ class CircularQueue:
         self.queue[self.rear] = x
 
     def dequeue(self):
+        # حذف و بازگرداندن عنصر اول صف
         if self.is_empty():
             return None
         value = self.queue[self.front]
@@ -35,45 +40,50 @@ class CircularQueue:
 
 
 # ===============================
-# Stack (پشته)
+# پشته ساده
 # ===============================
 class Stack:
-    def __init__(self):
+    def init(self):
+        # ساختار داخلی پشته
         self.stack = []
 
     def is_empty(self):
+        # بررسی خالی بودن پشته
         return len(self.stack) == 0
 
     def push(self, x):
+        # افزودن عنصر به بالای پشته
         self.stack.append(x)
 
     def pop(self):
+        # حذف و بازگرداندن عنصر بالای پشته
         if self.is_empty():
             return None
         return self.stack.pop()
 
     def peek(self):
+        # مشاهده عنصر بالای پشته بدون حذف
         return None if self.is_empty() else self.stack[-1]
 
 
 # ===============================
-# Hybrid Structure
-# (ارث‌بری از صف حلقوی و پشته)
+# ساختار ترکیبی: صف حلقوی + پشته
 # ===============================
 class HybridStructure(CircularQueue, Stack):
-    def __init__(self, size=5):
-        super().__init__(size)   # سازنده CircularQueue
-        self.stack = []          # سازنده Stack
+    def init(self, size=5):
+        # فراخوانی سازنده CircularQueue
+        CircularQueue.init(self, size)
+        # راه‌اندازی پشته داخلی
+        self.stack = []
 
-    # اضافه کردن داده (رفتار صف)
+    # افزودن داده با رفتار صف
     def add(self, x):
         self.enqueue(x)
 
-    # انتقال عناصر صف به پشته
+    # انتقال همه عناصر صف به پشته
     def queue_to_stack(self):
         if self.is_empty():
             return
-
         i = self.front
         while True:
             self.stack.append(self.queue[i])
@@ -81,13 +91,13 @@ class HybridStructure(CircularQueue, Stack):
                 break
             i = (i + 1) % self.size
 
-    # حذف با اولویت پشته
+    # حذف عنصر با اولویت پشته؛ در غیر این صورت از صف حذف می‌شود
     def remove(self):
         if self.stack:
             return self.stack.pop()
         return self.dequeue()
 
-    # وضعیت ساختار
+    # مشاهده وضعیت جاری ساختار
     def status(self):
         return {
             "queue": self.queue,
@@ -96,7 +106,7 @@ class HybridStructure(CircularQueue, Stack):
             "stack": self.stack
         }
 
-    # پاک‌سازی کامل
+    # پاکسازی کامل صف و پشته
     def clear_all(self):
         self.front = self.rear = -1
         self.queue = [None] * self.size
