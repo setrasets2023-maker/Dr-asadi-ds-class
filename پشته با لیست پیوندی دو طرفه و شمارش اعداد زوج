@@ -1,0 +1,161 @@
+import random
+
+# =========================
+# گره دوطرفه
+# =========================
+class Node:
+    def init(self, data):
+        self.data = data      # داده اصلی
+        self.prev = None      # اشاره‌گر به گره قبلی
+        self.next = None      # اشاره‌گر به گره بعدی
+
+
+# =========================
+# لیست پیوندی دوطرفه با ظرفیت
+# =========================
+class DoubleLinkedList:
+    def init(self, capacity):
+        self.head = None
+        self.tail = None
+        self.size_count = 0
+        self.capacity = capacity
+
+    def insert_after(self, target_data, new_data):
+        # درج یک گره بعد از گره مشخص
+        cur = self.head
+        while cur:
+            if cur.data == target_data:
+                new_node = Node(new_data)
+                new_node.prev = cur
+                new_node.next = cur.next
+                if cur.next:
+                    cur.next.prev = new_node
+                else:
+                    self.tail = new_node
+                cur.next = new_node
+                self.size_count += 1
+                return
+            cur = cur.next
+        print("مقدار مورد نظر پیدا نشد")
+
+    def push_back(self, data):
+        # افزودن گره در انتهای لیست
+        new_node = Node(data)
+        if not self.tail:
+            self.head = self.tail = new_node
+        else:
+            self.tail.next = new_node
+            new_node.prev = self.tail
+            self.tail = new_node
+        self.size_count += 1
+
+    def pop_back(self):
+        # حذف گره انتهایی
+        if not self.tail:
+            print("استک خالی")
+            return -1
+        data = self.tail.data
+        self.tail = self.tail.prev
+        if self.tail:
+            self.tail.next = None
+            self.size_count -= 1
+        else:
+            self.head = None
+            self.size_count = 0
+        return data
+
+    def back(self):
+        # مشاهده گره انتهایی
+        if not self.tail:
+            print("استک خالی")
+            return -1
+        return self.tail.data
+
+    def size(self):
+        return self.size_count
+
+    def is_empty(self):
+        return self.head is None
+
+    def print_all(self):
+        # نمایش تمام گره‌ها
+        cur = self.head
+        while cur:
+            print(cur.data, end=" ")
+            cur = cur.next
+        print()
+
+
+# =========================
+# پشته با لیست پیوندی
+# =========================
+class Stack:
+    def init(self, capacity):
+        self.capacity = capacity
+        self.list = DoubleLinkedList(capacity)
+
+    def push(self, data):
+        if self.list.size() >= self.capacity:
+            print("پشته پر است")
+            return -1
+        self.list.push_back(data)
+
+    def pop(self):
+        return self.list.pop_back()
+
+    def top(self):
+        return self.list.back()
+
+    def is_empty(self):
+        return self.list.is_empty()
+
+    def force_insert(self, data):
+        # درج بدون بررسی ظرفیت
+        self.list.push_back(data)
+
+    def print_all(self):
+        self.list.print_all()
+
+
+# =========================
+# شمارش اعداد زوج در لیست پیوندی
+# =========================
+def count_even(linked_list_obj):
+    count = 0
+    current = linked_list_obj.head
+    while current:
+        if current.data % 2 == 0:
+            count += 1
+        current = current.next
+    return count
+
+
+# =========================
+# شمارش و نمایش اعداد زوج در پشته
+# =========================
+def count_even_stack(stack_obj):
+    count = 0
+    print("اعداد زوج موجود در پشته:")
+
+    current = stack_obj.list.head
+    while current:
+        if current.data % 2 == 0:
+            print(current.data, end=" ")
+            count += 1
+        current = current.next
+
+    print()
+    print(f"تعداد کل اعداد زوج: {count}")
+    return count
+
+
+# =========================
+# تست
+# =========================
+test_stack = Stack(10)
+
+for _ in range(10):
+    r = random.randint(1, 20)
+    test_stack.push(r)
+
+result = count_even_stack(test_stack)
