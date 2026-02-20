@@ -1,39 +1,44 @@
 # ======================================
-# Node (گره چهار بعدی)
+# گره چهاربعدی
 # ======================================
 class Node:
-    def __init__(self, data):
+    def init(self, data):
+        # داده اصلی گره
         self.data = data
+        # اشاره‌گر به گره بعدی
         self.next = None
+        # اشاره‌گر به گره قبلی
         self.prev = None
+        # اشاره‌گر به گره زیرمجموعه پایین
         self.down = None
+        # اشاره‌گر به گره زیرمجموعه بالا
         self.up = None
 
 
 # ======================================
-# Four Dimensional Linked List
+# لیست پیوندی چهاربعدی
 # ======================================
 class FourDimensionalLinkedList:
-    def __init__(self):
+    def init(self):
+        # سر لیست
         self.head = None
 
-
-    # 1
+    # ---------- بررسی وضعیت ----------
     def is_empty(self):
+        # آیا لیست خالی است؟
         return self.head is None
 
-
-    # 2
+    # ---------- افزودن گره ----------
     def add_first(self, data):
+        # افزودن گره در ابتدا
         new_node = Node(data)
         if not self.is_empty():
             self.head.prev = new_node
             new_node.next = self.head
         self.head = new_node
 
-
-    # 3
     def add_last(self, data):
+        # افزودن گره در انتها
         new_node = Node(data)
         if self.is_empty():
             self.head = new_node
@@ -44,9 +49,9 @@ class FourDimensionalLinkedList:
         temp.next = new_node
         new_node.prev = temp
 
-
-    # 4
+    # ---------- حذف گره ----------
     def remove_first(self):
+        # حذف اولین گره
         if self.is_empty():
             return None
         value = self.head.data
@@ -55,9 +60,8 @@ class FourDimensionalLinkedList:
             self.head.prev = None
         return value
 
-
-    # 5
     def remove_last(self):
+        # حذف آخرین گره
         if self.is_empty():
             return None
         temp = self.head
@@ -69,9 +73,9 @@ class FourDimensionalLinkedList:
             self.head = None
         return temp.data
 
-
-    # 6
+    # ---------- جستجو و شمارش ----------
     def search(self, data):
+        # جستجوی یک داده در لیست
         temp = self.head
         while temp:
             if temp.data == data:
@@ -79,9 +83,8 @@ class FourDimensionalLinkedList:
             temp = temp.next
         return False
 
-
-    # 7
     def count(self):
+        # شمارش کل گره‌ها
         cnt = 0
         temp = self.head
         while temp:
@@ -89,18 +92,18 @@ class FourDimensionalLinkedList:
             temp = temp.next
         return cnt
 
-
-    # 8
+    # ---------- نمایش ----------
     def display(self):
+        # نمایش لیست اصلی
         temp = self.head
         while temp:
             print(temp.data, end=" <-> ")
             temp = temp.next
         print("None")
 
-
-    # 9
+    # ---------- مدیریت شاخه‌های پایین و بالا ----------
     def add_down(self, parent_data, child_data):
+        # افزودن گره به شاخه پایین گره مشخص
         temp = self.head
         while temp:
             if temp.data == parent_data:
@@ -108,9 +111,8 @@ class FourDimensionalLinkedList:
                 return
             temp = temp.next
 
-
-    # 10
     def add_up(self, parent_data, child_data):
+        # افزودن گره به شاخه بالا گره مشخص
         temp = self.head
         while temp:
             if temp.data == parent_data:
@@ -118,9 +120,8 @@ class FourDimensionalLinkedList:
                 return
             temp = temp.next
 
-
-    # 11
     def remove_down(self, data):
+        # حذف گره پایین گره مشخص
         temp = self.head
         while temp:
             if temp.data == data:
@@ -128,9 +129,8 @@ class FourDimensionalLinkedList:
                 return
             temp = temp.next
 
-
-    # 12
     def remove_up(self, data):
+        # حذف گره بالا گره مشخص
         temp = self.head
         while temp:
             if temp.data == data:
@@ -138,19 +138,16 @@ class FourDimensionalLinkedList:
                 return
             temp = temp.next
 
-
-    # 13
     def has_down(self, data):
+        # بررسی وجود شاخه پایین برای گره مشخص
         temp = self.head
         while temp:
             if temp.data == data:
                 return temp.down is not None
             temp = temp.next
         return False
-
-
-    # 14
-    def has_up(self, data):
+        def has_up(self, data):
+        # بررسی وجود شاخه بالا برای گره مشخص
         temp = self.head
         while temp:
             if temp.data == data:
@@ -158,7 +155,7 @@ class FourDimensionalLinkedList:
             temp = temp.next
         return False
 
-
-    # 15
+    # ---------- پاکسازی ----------
     def clear(self):
+        # حذف همه گره‌ها و شاخه‌ها
         self.head = None
