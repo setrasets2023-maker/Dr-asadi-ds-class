@@ -1,18 +1,22 @@
-# ---------- Circular Queue ----------
+# ---------- صف حلقه‌ای (Circular Queue) ----------
 class CircularQueue:
-    def __init__(self, size=10):
+    def init(self, size=10):
+        # ایجاد صف حلقه‌ای با ظرفیت مشخص
         self.size = size
         self.queue = [None] * size
         self.front = -1
         self.rear = -1
 
     def is_empty(self):
+        # بررسی خالی بودن صف
         return self.front == -1
 
     def is_full(self):
+        # بررسی پر بودن صف به صورت حلقه‌ای
         return (self.rear + 1) % self.size == self.front
 
     def enqueue(self, x):
+        # افزودن عنصر به صف در صورت وجود ظرفیت
         if self.is_full():
             return False
         if self.is_empty():
@@ -23,6 +27,7 @@ class CircularQueue:
         return True
 
     def dequeue(self):
+        # حذف و بازگرداندن عنصر ابتدای صف
         if self.is_empty():
             return None
         value = self.queue[self.front]
@@ -33,32 +38,39 @@ class CircularQueue:
         return value
 
 
-# ---------- Stack ----------
+# ---------- پشته (Stack) ----------
 class Stack:
-    def __init__(self):
+    def init(self):
+        # ایجاد ساختار داخلی پشته
         self.stack = []
 
     def push(self, x):
+        # افزودن عنصر به بالای پشته
         self.stack.append(x)
 
     def pop(self):
+        # حذف و بازگرداندن عنصر بالای پشته
         if not self.stack:
             return None
         return self.stack.pop()
 
     def stack_empty(self):
+        # بررسی خالی بودن پشته
         return len(self.stack) == 0
 
 
-# ---------- Priority Circular Queue ----------
+# ---------- صف حلقه‌ای با اولویت (Priority Circular Queue) ----------
 class PriorityCircularQueue(CircularQueue, Stack):
 
-    def __init__(self, size=10):
-        CircularQueue.__init__(self, size)
-        Stack.__init__(self)
+    def init(self, size=10):
+        CircularQueue.init(self, size)
+        Stack.init(self)
 
-    # 1
     def enqueue_with_priority(self, x):
+        """
+        افزودن عنصر به صف و مرتب‌سازی کل عناصر
+        به ترتیب نزولی (اولویت‌بندی)
+        """
         if self.is_full():
             return False
         data = self.get_elements()
@@ -69,18 +81,21 @@ class PriorityCircularQueue(CircularQueue, Stack):
             self.enqueue(item)
         return True
 
-    # 2
     def dequeue_priority(self):
+        # حذف عنصر با اولویت (عنصر ابتدای صف)
         return self.dequeue()
 
-    # 3
     def peek(self):
+        # مشاهده عنصر ابتدای صف بدون حذف
         if self.is_empty():
             return None
         return self.queue[self.front]
 
-    # 4
     def get_elements(self):
+        """
+        استخراج همه عناصر موجود در صف به صورت لیست
+        با رعایت ترتیب از front تا rear
+        """
         if self.is_empty():
             return []
         result = []
@@ -92,32 +107,35 @@ class PriorityCircularQueue(CircularQueue, Stack):
             i = (i + 1) % self.size
         return result
 
-    # 5
     def clear(self):
+        # پاکسازی کل صف
         self.front = self.rear = -1
         self.queue = [None] * self.size
 
-    # 6
     def count(self):
+        # شمارش تعداد عناصر موجود در صف
         return len(self.get_elements())
 
-    # 7
     def contains(self, x):
+        # بررسی وجود عنصر مشخص در صف
         return x in self.get_elements()
 
-    # 8
     def reverse(self):
+        """
+        معکوس کردن ترتیب عناصر صف
+        با استفاده از پشته
+        """
         for x in self.get_elements():
             self.push(x)
         self.clear()
         while not self.stack_empty():
             self.enqueue(self.pop())
 
-    # 9
     def move_to_stack(self):
+        # انتقال عناصر صف به پشته داخلی
         for x in self.get_elements():
             self.push(x)
 
-    # 10
     def display(self):
+        # نمایش عناصر موجود در صف
         print(self.get_elements())
