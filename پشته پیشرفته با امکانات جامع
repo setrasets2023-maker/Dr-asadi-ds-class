@@ -1,0 +1,52 @@
+# ---------- 28 ----------
+    def max_frequency(self):
+        # عنصری با بیشترین تکرار در پشته
+        if self.is_empty():
+            return None
+        return max(set(self.stack), key=self.stack.count)
+
+    # ---------- 29 ----------
+    def min_frequency(self):
+        # عنصری با کمترین تکرار در پشته
+        if self.is_empty():
+            return None
+        return min(set(self.stack), key=self.stack.count)
+
+    # ---------- 30 ----------
+    def push_if_unique(self, x):
+        # افزودن عنصر تنها در صورت عدم وجود آن
+        if x not in self.stack:
+            self.push(x)
+
+    # ---------- 31 ----------
+    def swap_top(self):
+        # جابجایی دو عنصر بالای پشته
+        if self.size() < 2:
+            return
+        self.stack[-1], self.stack[-2] = self.stack[-2], self.stack[-1]
+
+    # ---------- 32 ----------
+    def rotate_left(self):
+        # چرخش عناصر به چپ (اولین عنصر به انتها)
+        if self.size() > 1:
+            self.stack.append(self.stack.pop(0))
+
+    # ---------- 33 ----------
+    def rotate_right(self):
+        # چرخش عناصر به راست (آخرین عنصر به ابتدا)
+        if self.size() > 1:
+            self.stack.insert(0, self.stack.pop())
+
+    # ---------- 34 ----------
+    def to_string(self):
+        # تبدیل پشته به رشته برای نمایش
+        return " ".join(map(str, self.stack))
+
+    # ---------- 35 ----------
+    def info(self):
+        # اطلاعات خلاصه پشته
+        return {
+            "size": self.size(),
+            "is_empty": self.is_empty(),
+            "top": self.peek()
+        }
