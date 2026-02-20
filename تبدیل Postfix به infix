@@ -1,0 +1,50 @@
+# ===============================
+# پشته ساده
+# ===============================
+class Stack:
+    def init(self):
+        # لیست برای نگهداری عناصر پشته
+        self.items = []
+
+    def is_empty(self):
+        # بررسی خالی بودن پشته
+        return len(self.items) == 0
+
+    def push(self, x):
+        # افزودن عنصر به بالای پشته
+        self.items.append(x)
+
+    def pop(self):
+        # حذف و بازگرداندن عنصر بالای پشته
+        if self.is_empty():
+            return None
+        return self.items.pop()
+
+
+# ===============================
+# تبدیل عبارت Postfix به Infix
+# ===============================
+def postfix_to_infix(expression):
+    # پشته برای نگهداری عملوندها و عبارات میانی
+    stack = Stack()
+    operators = {'+', '-', '*', '/', '^'}
+
+    for ch in expression:
+        if ch not in operators:
+            # اگر کاراکتر عملوند باشد، مستقیماً به پشته اضافه شود
+            stack.push(ch)
+        else:
+            # اگر عملگر باشد، دو عملوند بالای پشته را بگیرید
+            op2 = stack.pop()
+            op1 = stack.pop()
+            # ترکیب به صورت (عملوند1 عملگر عملوند2)
+            new_expr = f"({op1}{ch}{op2})"
+            stack.push(new_expr)
+
+    # در نهایت، نتیجه نهایی در بالای پشته قرار دارد
+    return stack.pop()
+
+
+# --------- تست ---------
+exp = "ab+c*"
+print(postfix_to_infix(exp))   # خروجی: ((a+b)*c)
