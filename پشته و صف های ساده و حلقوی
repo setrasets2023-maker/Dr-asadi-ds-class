@@ -1,47 +1,60 @@
+# ===============================
+# پشته ساده
+# ===============================
 class Stack:
-    def __init__(self):
+    def init(self):
+        # لیست برای نگهداری عناصر پشته
         self.stack = []
 
     def is_empty(self):
+        # بررسی خالی بودن پشته
         return len(self.stack) == 0
 
     def push(self, x):
+        # افزودن عنصر به بالای پشته
         self.stack.append(x)
 
     def pop(self):
+        # حذف و بازگرداندن عنصر بالای پشته
         if self.is_empty():
             return None
         return self.stack.pop()
 
     def peek(self):
+        # مشاهده عنصر بالای پشته بدون حذف
         if self.is_empty():
             return None
         return self.stack[-1]
 
 
-
-
-
+# ===============================
+# صف ساده با آرایه
+# ===============================
 class SimpleQueue:
-    def __init__(self, size=5):
+    def init(self, size=5):
+        # ایجاد آرایه با اندازه مشخص
         self.size = size
         self.queue = [None] * size
         self.front = 0
         self.rear = -1
 
     def is_empty(self):
+        # بررسی خالی بودن صف
         return self.front > self.rear
 
     def is_full(self):
+        # بررسی پر بودن صف
         return self.rear == self.size - 1
 
     def enqueue(self, x):
+        # افزودن عنصر به انتهای صف
         if self.is_full():
             return
         self.rear += 1
         self.queue[self.rear] = x
 
     def dequeue(self):
+        # حذف و بازگرداندن عنصر اول صف
         if self.is_empty():
             return None
         value = self.queue[self.front]
@@ -49,23 +62,27 @@ class SimpleQueue:
         return value
 
 
-
-
-
+# ===============================
+# صف حلقوی
+# ===============================
 class CircularQueue:
-    def __init__(self, size=5):
+    def init(self, size=5):
+        # آرایه با ظرفیت مشخص و نشانگرهای front و rear
         self.size = size
         self.queue = [None] * size
         self.front = -1
         self.rear = -1
 
     def is_empty(self):
+        # بررسی خالی بودن صف
         return self.front == -1
 
     def is_full(self):
+        # بررسی پر بودن صف به صورت حلقوی
         return (self.rear + 1) % self.size == self.front
 
     def enqueue(self, x):
+        # افزودن عنصر به صف
         if self.is_full():
             return
         if self.is_empty():
@@ -75,11 +92,12 @@ class CircularQueue:
         self.queue[self.rear] = x
 
     def dequeue(self):
+        # حذف و بازگرداندن عنصر اول صف
         if self.is_empty():
             return None
-
         value = self.queue[self.front]
         if self.front == self.rear:
+            # آخرین عنصر حذف شد
             self.front = self.rear = -1
         else:
             self.front = (self.front + 1) % self.size
